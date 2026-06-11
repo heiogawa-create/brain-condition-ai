@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Footer from '@/components/Footer';
 import { loadUserData } from '@/lib/storage';
 import { CHARACTERS, STAGE_EMOJIS } from '@/lib/character';
@@ -49,7 +48,6 @@ export default function CollectionPage() {
 
         <div className="space-y-4 pb-24">
 
-          {/* Achievement rate */}
           <div className="bg-white rounded-2xl border border-purple-100 p-4 shadow-sm card-enter">
             <div className="flex items-center justify-between mb-2">
               <p className="text-sm font-bold text-purple-700">解放率</p>
@@ -64,7 +62,6 @@ export default function CollectionPage() {
             <p className="text-xs text-purple-400 text-right">{achievementRate}% 達成</p>
           </div>
 
-          {/* Characters grid */}
           <div className="grid grid-cols-2 gap-3 card-enter delay-100">
             {ALL_STAGES.map((stage) => {
               const char = CHARACTERS[stage];
@@ -95,8 +92,6 @@ export default function CollectionPage() {
                     {isUnlocked ? char.name : '???'}
                   </p>
                   <p className="text-xs text-gray-400 text-center mt-0.5">段階 {stage + 1}</p>
-
-                  {/* Expanded info */}
                   {selected === stage && (
                     <div className="mt-3 pt-3 border-t border-gray-100">
                       {isUnlocked ? (
@@ -111,7 +106,6 @@ export default function CollectionPage() {
             })}
           </div>
 
-          {/* Progress bars */}
           <div className="bg-white rounded-2xl border border-blue-100 p-4 shadow-sm card-enter delay-200">
             <p className="text-sm font-bold text-blue-700 mb-4">🏆 進化条件の進捗</p>
             <div className="space-y-5">
@@ -126,7 +120,6 @@ export default function CollectionPage() {
                       className="bg-gradient-to-r from-blue-400 to-indigo-400 h-3 rounded-full transition-all duration-1000"
                       style={{ width: `${Math.min(100, (item.current / item.max) * 100)}%` }}
                     />
-                    {/* Target markers */}
                     {item.targets.map((t) => (
                       <div
                         key={t}
@@ -137,12 +130,11 @@ export default function CollectionPage() {
                       />
                     ))}
                   </div>
-                  <div className="flex justify-between mt-1">
+                  <div className="flex justify-between mt-1 px-1">
                     {item.targets.map((t) => (
                       <span
                         key={t}
                         className={`text-xs ${item.current >= t ? 'text-blue-500 font-medium' : 'text-gray-400'}`}
-                        style={{ marginLeft: `${(t / item.max) * 100 - 5}%` }}
                       >
                         {t}{item.unit}
                       </span>
@@ -153,7 +145,6 @@ export default function CollectionPage() {
             </div>
           </div>
 
-          {/* Evolution guide */}
           <div className="bg-white rounded-2xl border border-orange-100 p-4 shadow-sm card-enter delay-300">
             <p className="text-sm font-bold text-orange-700 mb-3">📋 進化条件ガイド</p>
             <div className="space-y-3">
