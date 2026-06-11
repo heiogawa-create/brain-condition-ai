@@ -20,7 +20,7 @@ export type FatigueType =
   | '回復不足型';
 
 export interface DiagnosisRecord {
-  date: string; // YYYY-MM-DD
+  date: string;
   score: number;
   fatigueLevel: FatigueLevel;
   fatigueType: FatigueType;
@@ -32,18 +32,11 @@ export interface DiagnosisRecord {
 
 export type CharacterStage = 0 | 1 | 2 | 3 | 4;
 
-export interface CharacterInfo {
-  stage: CharacterStage;
-  name: string;
-  emoji: string;
-  description: string;
-  unlockCondition: string;
-}
-
 export interface MissionItem {
   id: string;
   text: string;
   completed: boolean;
+  isNight?: boolean;
 }
 
 export interface UserData {
@@ -53,11 +46,13 @@ export interface UserData {
   level: number;
   diagnosisCount: number;
   totalMissionsCompleted: number;
+  nightMissionsCompleted: number;
   todayMissions: MissionItem[];
   todayMissionsDate: string;
   streak: number;
   lastDiagnosisDate: string;
   characterStage: CharacterStage;
   unlockedStages: CharacterStage[];
+  unlockedCharacterIds: number[];
   todayDiagnosisDone: boolean;
 }
