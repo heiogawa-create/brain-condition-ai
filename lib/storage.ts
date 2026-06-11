@@ -3,21 +3,25 @@ import type { UserData, MissionItem } from '@/types';
 const STORAGE_KEY = 'brain_condition_user_data';
 
 export const MISSIONS_POOL = [
-  '水を500ml飲む',
-  '5分散歩する',
-  '深呼吸を20回する',
-  '首肩ストレッチをする',
-  '30分スマホを休む',
-  '朝日を浴びる',
-  '就寝1時間前にスマホを置く',
-  '目を1分休める',
-  '軽く背伸びをする',
-  '夕方に外を見る',
-  '好きな音楽を1曲聴く',
-  '10分間読書をする',
-  '温かい飲み物を飲む',
-  '5分間目をつむる',
-  '今日のよかったことを3つ思い浮かべる',
+  { text: '水を500ml飲む', isNight: false },
+  { text: '5分散歩する', isNight: false },
+  { text: '深呼吸を20回する', isNight: false },
+  { text: '首肩ストレッチをする', isNight: false },
+  { text: '30分スマホを休む', isNight: false },
+  { text: '朝日を浴びる', isNight: false },
+  { text: '目を1分休める', isNight: false },
+  { text: '軽く背伸びをする', isNight: false },
+  { text: '夕方に外を見る', isNight: false },
+  { text: '好きな音楽を1曲聴く', isNight: false },
+  { text: '10分間読書をする', isNight: false },
+  { text: '温かい飲み物を飲む', isNight: false },
+  { text: '5分間目をつむる', isNight: false },
+  { text: '今日のよかったことを3つ思い浮かべる', isNight: false },
+  { text: '就寝1時間前にスマホを置く', isNight: true },
+  { text: '寝る前に軽くストレッチをする', isNight: true },
+  { text: '部屋を暗くして静かにする', isNight: true },
+  { text: '明日の準備を今日のうちにする', isNight: true },
+  { text: '寝る前に日記を書く', isNight: true },
 ];
 
 const DEFAULT_USER_DATA: UserData = {
@@ -27,12 +31,14 @@ const DEFAULT_USER_DATA: UserData = {
   level: 1,
   diagnosisCount: 0,
   totalMissionsCompleted: 0,
+  nightMissionsCompleted: 0,
   todayMissions: [],
   todayMissionsDate: '',
   streak: 0,
   lastDiagnosisDate: '',
   characterStage: 0,
   unlockedStages: [0],
+  unlockedCharacterIds: [0],
   todayDiagnosisDone: false,
 };
 
@@ -51,9 +57,7 @@ export function saveUserData(data: UserData): void {
   if (typeof window === 'undefined') return;
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  } catch {
-    // ignore
-  }
+  } catch {}
 }
 
 export function getTodayString(): string {
@@ -62,9 +66,10 @@ export function getTodayString(): string {
 
 export function generateTodayMissions(): MissionItem[] {
   const shuffled = [...MISSIONS_POOL].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, 3).map((text, i) => ({
+  return shuffled.slice(0, 3).map((m, i) => ({
     id: `mission_${i}`,
-    text,
+    text: m.text,
+    isNight: m.isNight,
     completed: false,
   }));
 }
@@ -108,4 +113,30 @@ export function getUnlockedStages(data: UserData): UserData['characterStage'][] 
     stages.push(s as UserData['characterStage']);
   }
   return stages;
+}
+
+export function computeStats(data: UserData) {
+  const history = data.diagnosisHistory;
+  const recent7 = history.slice(-7);
+  const weekAvgScore = recent7.length > 0
+    ? Math.round(recent7.reduce((a, b) => a + b.score, 0) / recent7.length)
+    : 0;
+
+  return {
+    diagnosisCount: data.diagnosisCount,
+    totalMissionsCompleted: data.totalMissionsCompleted,
+    nightMissionsCompleted: data.nightMissionsCompleted ?? 0,
+    streak: data.streak,
+    exp: data.exp,
+    level: data.level,
+    weekAvgScore,
+    goodScoreCount: history.filter(r => r.score >= 80).length,
+    highScoreCount75: history.filter(r => r.score >= 75).length,
+    highScoreCount80: history.filter(r => r.score >= 80).length,
+    highScoreCount85: history.filter(r => r.score >= 85).length,
+    highScoreCount90: history.filter(r => r.score >= 90).length,
+    highScoreCount95: history.filter(r => r.score >= 95).length,
+    perfectScoreCount: history.filter(r => r.score >= 100).length,
+    diagnosisHistory: history,
+  };
 }
