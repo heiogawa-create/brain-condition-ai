@@ -32,6 +32,16 @@ export interface DiagnosisRecord {
 
 export type CharacterStage = 0 | 1 | 2 | 3 | 4;
 
+export interface CharacterInfo {
+  stage: number;
+  name: string;
+  emoji: string;
+  description: string;
+  unlockCondition: string;
+}
+
+export interface MissionItem {
+
 export interface MissionItem {
   id: string;
   text: string;
