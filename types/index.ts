@@ -12,6 +12,7 @@ export interface FatigueBreakdown {
 }
 
 export type FatigueLevel = '良好' | '軽度疲労' | '中等度疲労' | '重度疲労';
+
 export type FatigueType =
   | '睡眠不足型'
   | '情報過多型'
@@ -39,8 +40,6 @@ export interface CharacterInfo {
   description: string;
   unlockCondition: string;
 }
-
-export interface MissionItem {
 
 export interface MissionItem {
   id: string;
