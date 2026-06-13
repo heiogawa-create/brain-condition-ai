@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { QUESTIONS, SCALE_LABELS } from '@/lib/score';
 import { loadUserData, saveUserData } from '@/lib/storage';
 
-const QUESTION_ICONS = ['😴', '🌅', '🎯', '📝', '😤', '💆', '📱', '🏃', '🍽️', '🔋'];
 const FACE_MAP: Record<number, string> = { 1: '😞', 2: '😕', 3: '😐', 4: '🙂', 5: '😄' };
 const BG_COLORS = [
   'from-blue-50 to-indigo-50',
@@ -96,7 +95,6 @@ export default function CheckPage() {
           }`}
         >
           <div className="bg-white rounded-3xl shadow-sm p-6 mb-6 text-center">
-            <div className="text-5xl mb-4">{QUESTION_ICONS[current]}</div>
             <p className="text-base font-bold text-gray-800 leading-relaxed">
               {QUESTIONS[current]}
             </p>
