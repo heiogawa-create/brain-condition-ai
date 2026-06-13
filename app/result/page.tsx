@@ -30,6 +30,13 @@ const LEVEL_STYLE: Record<FatigueLevel, { badge: string; ring: string; label: st
   重度疲労: { badge: 'bg-red-100 text-red-700 border-red-200',        ring: '#f87171', label: 'text-red-600',    bg: 'from-red-50 to-pink-50',     emoji: '😵' },
 };
 
+const RESULT_CHARACTER: Record<FatigueLevel, { emoji: string; message: string }> = {
+  良好:     { emoji: '🐿️✨', message: '今日も絶好調だね！この調子で過ごしていこう♪' },
+  軽度疲労: { emoji: '🐿️😌', message: '少しお疲れみたい。無理せずペースを保ってね。' },
+  中等度疲労:{ emoji: '🐿️💦', message: '疲れがたまってきてるよ。今日は労ってあげて。' },
+  重度疲労: { emoji: '🐿️😪', message: 'かなり疲れてるみたい…しっかり休息をとってね。' },
+};
+
 function ScoreGauge({ score, fatigueLevel }: { score: number; fatigueLevel: FatigueLevel }) {
   const [displayScore, setDisplayScore] = useState(0);
   const style = LEVEL_STYLE[fatigueLevel];
@@ -213,6 +220,18 @@ export default function ResultPage() {
               </span>
             </div>
           </div>
+
+          {/* Character reaction */}
+          <Card color="white" className="card-enter delay-100">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-indigo-50 rounded-full flex items-center justify-center text-2xl shrink-0">
+                {RESULT_CHARACTER[record.fatigueLevel].emoji}
+              </div>
+              <p className="text-sm text-gray-700 leading-relaxed flex-1">
+                {RESULT_CHARACTER[record.fatigueLevel].message}
+              </p>
+            </div>
+          </Card>
 
           {/* Breakdown */}
           <Card color="white" className="card-enter delay-100">
