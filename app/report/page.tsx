@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import Card from '@/components/Card';
@@ -177,12 +178,12 @@ export default function ReportPage() {
                   <span className="text-2xl font-bold">¥100</span>
                   <span className="text-sm text-indigo-200"> / 月</span>
                 </div>
-                <button
-                  disabled
-                  className="bg-white/20 text-white/60 px-5 py-2 rounded-xl text-sm font-medium cursor-not-allowed border border-white/30"
+                <Link
+                  href="/premium"
+                  className="bg-white text-indigo-600 px-5 py-2 rounded-xl text-sm font-bold active:scale-95 transition-all shadow-sm"
                 >
-                  準備中
-                </button>
+                  購入する
+                </Link>
               </div>
             </div>
           </div>

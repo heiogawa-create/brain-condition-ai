@@ -8,6 +8,8 @@ import CharacterCard from '@/components/CharacterCard';
 import MissionCard from '@/components/MissionCard';
 import Footer from '@/components/Footer';
 import ScoreCircle from '@/components/ScoreCircle';
+import { useAuth } from '@/lib/supabase/AuthProvider';
+import { isSupabaseConfigured } from '@/lib/supabase/client';
 import {
   loadUserData,
   saveUserData,
@@ -24,6 +26,7 @@ const ScoreChart = dynamic(() => import('@/components/ScoreChart'), { ssr: false
 export default function HomePage() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [mounted, setMounted] = useState(false);
+  const { user, loading: authLoading, isPremium } = useAuth();
 
   useEffect(() => {
     setMounted(true);
@@ -119,6 +122,36 @@ export default function HomePage() {
       </header>
 
       <div className="space-y-4 pb-4">
+
+        {/* Auth / premium status */}
+        {isSupabaseConfigured && !authLoading && (
+          <Link
+            href={user ? '/premium' : '/login'}
+            className="block bg-white rounded-2xl px-4 py-3 border border-gray-100 shadow-sm flex items-center justify-between card-enter"
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-lg">{user ? '👤' : '🔑'}</span>
+              <p className="text-sm text-gray-700">
+                {user ? (
+                  <>
+                    <span className="font-medium">{user.email}</span> でログイン中
+                  </>
+                ) : (
+                  'ログインしていません'
+                )}
+              </p>
+            </div>
+            {isPremium ? (
+              <span className="text-xs bg-indigo-100 text-indigo-600 px-2 py-1 rounded-full font-bold">
+                ✨ プレミアム
+              </span>
+            ) : (
+              <span className="text-xs text-gray-400 px-2 py-1">
+                {user ? 'プレミアムを見る ›' : 'ログイン ›'}
+              </span>
+            )}
+          </Link>
+        )}
 
         {/* Welcome card for first-time users */}
         {isFirstTime && (
