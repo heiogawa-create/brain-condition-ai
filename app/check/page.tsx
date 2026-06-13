@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { QUESTIONS, SCALE_LABELS } from '@/lib/score';
 import { loadUserData, saveUserData } from '@/lib/storage';
 
-const FACE_MAP: Record<number, string> = { 1: '😞', 2: '😕', 3: '😐', 4: '🙂', 5: '😄' };
 const BG_COLORS = [
   'from-blue-50 to-indigo-50',
   'from-indigo-50 to-purple-50',
@@ -115,7 +114,6 @@ export default function CheckPage() {
                       : 'bg-white text-gray-700 shadow-sm hover:shadow-md hover:bg-indigo-50'
                   }`}
                 >
-                  <span className="text-xl w-8">{FACE_MAP[score]}</span>
                   <span className="flex-1 text-left">{SCALE_LABELS[score]}</span>
                   <span className={`text-base font-bold w-5 text-right ${selected ? 'text-white' : 'text-gray-300'}`}>
                     {score}
